@@ -21,7 +21,9 @@ const PipeList = () => {
 
   // For this exercise, get only the first organization
   const pipes = pipesConnection.organizations?.map((t) => t?.pipes)[0];
-  console.log(pipes);
+  const sortedPipes = pipes
+    ?.slice()
+    .sort((a, b) => a!.name.trim().localeCompare(b!.name.trim()));
 
   return (
     <section>
@@ -34,7 +36,7 @@ const PipeList = () => {
             Here are all your processes
           </h2>
           {/* TODO: w-auto */}
-          {pipes?.map((pipe) => (
+          {sortedPipes?.map((pipe) => (
             <div
               key={pipe?.id}
               className={`p-2 rounded-xl shadow-sm hover:shadow-md flex flex-col w-36 cursor-pointer ${new TailwindColor().pick()} bg-opacity-10 pipe`}
