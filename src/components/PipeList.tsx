@@ -1,6 +1,21 @@
 import React from "react";
+import { useQuery } from "@apollo/client";
+import { Pipes } from "../graphql/__generated__/Pipes"; // Import
 
 const PipeList = () => {
+  // const {
+  //   loading: isLoading,
+  //   data: pipesConnection,
+  //   error: pipesError,
+  // } = useQuery<Pipes>(GET_ALL_TODOS); // Use the type here for type safety
+
+  // if (isLoading) return <div>Loading...</div>;
+  // if (pipesError)
+  //   return <div>An error occurred {JSON.stringify(pipesError)}</div>;
+  // if (!pipesConnection) return <div>None</div>;
+
+  // const pipes = pipesConnection.organizations?.map((t) => t?.name);
+
   return (
     <section>
       <div className="grid place-items-center">

@@ -1,0 +1,11 @@
+query Pipes {
+  organizations {
+    id
+    name
+    pipes {
+      id
+      name
+      cards_count
+    }
+  }
+}

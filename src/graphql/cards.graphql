@@ -1,0 +1,9 @@
+query Cards($pipe_id: Int!) {
+    cards(pipe_id: $pipe_id) {
+    edges {
+      node {
+        title
+      }
+    }
+  }
+}
