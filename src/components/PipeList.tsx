@@ -1,20 +1,27 @@
-import React from "react";
+import React, { useState } from "react";
 import { useQuery } from "@apollo/client";
 import { Pipes } from "../graphql/__generated__/Pipes";
 import { loader } from "graphql.macro";
+import Modal from "./Modal";
+import CardDetails, { CardDetailsProps } from "./CardDetails";
 
 const pipesQuery = loader("../graphql/pipes.graphql");
 
 const TailwindColor = require("@videsk/tailwind-random-color");
 
 const PipeList = () => {
+  const [showCard, setShowCard] = useState<Pick<
+    CardDetailsProps,
+    "pipeId" | "pipeName"
+  > | null>(null);
+
   const {
-    loading: isLoading,
+    loading: isPipesLoading,
     data: pipesConnection,
     error: pipesError,
   } = useQuery<Pipes>(pipesQuery);
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isPipesLoading) return <div>Loading...</div>;
   if (pipesError)
     return <div>An error occurred {JSON.stringify(pipesError)}</div>;
   if (!pipesConnection) return <div>None</div>;
@@ -25,8 +32,21 @@ const PipeList = () => {
     ?.slice()
     .sort((a, b) => a!.name.trim().localeCompare(b!.name.trim()));
 
+  const closeCard = () => {
+    setShowCard(null);
+  };
+
   return (
     <section>
+      {showCard && (
+        <Modal>
+          <CardDetails
+            pipeId={showCard!.pipeId}
+            pipeName={showCard!.pipeName}
+            closeCard={closeCard}
+          />
+        </Modal>
+      )}
       <div className="grid mb-16 place-items-center">
         <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
           <h1 className="col-span-2 text-4xl font-extrabold md:col-span-4">
@@ -35,16 +55,21 @@ const PipeList = () => {
           <h2 className="col-span-2 pb-4 md:col-span-4">
             Here are all your processes
           </h2>
-          {/* TODO: w-auto */}
           {sortedPipes?.map((pipe) => (
             <div
-              key={pipe?.id}
+              key={pipe!.id}
               className={`p-2 rounded-xl shadow-sm hover:shadow-md flex flex-col w-36 cursor-pointer ${new TailwindColor().pick()} bg-opacity-10 pipe`}
+              onClick={() =>
+                setShowCard({
+                  pipeId: pipe!.id,
+                  pipeName: pipe!.name,
+                })
+              }
             >
               <img
                 src="pipe.png"
                 className="self-center w-12 m-4"
-                alt="pipe-icon"
+                alt="pipe icon"
               />
               <h3 className="flex-1 text-sm font-bold text-center">
                 {pipe?.name}

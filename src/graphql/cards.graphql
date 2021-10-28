@@ -1,8 +1,19 @@
-query Cards($pipe_id: Int!) {
-    cards(pipe_id: $pipe_id) {
+query Cards($pipe_id: ID!, $first: Int, $after: String) {
+  cards(pipe_id: $pipe_id, first: $first, after: $after) {
+    pageInfo {
+      hasNextPage
+      endCursor
+    }
     edges {
       node {
+        id
         title
+        done
+        labels {
+          id
+          color
+          name
+        }
       }
     }
   }
