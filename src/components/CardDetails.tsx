@@ -2,6 +2,7 @@ import React from "react";
 import { useQuery } from "@apollo/client";
 import { Cards } from "../graphql/__generated__/Cards";
 import { loader } from "graphql.macro";
+import Button from "./Button";
 
 const cardsQuery = loader("../graphql/cards.graphql");
 
@@ -40,16 +41,12 @@ const CardDetails = ({ pipeId, pipeName, closeCard }: CardDetailsProps) => {
         </div>
       ))}
       <div className="pt-4 pb-2">
-        <button
-          type="button"
-          onClick={closeCard}
-          className="px-4 py-2 text-sm font-medium text-white bg-black rounded-md bg-opacity-20 hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
-        >
-          Close pipe
-        </button>
+        <Button title="Close pipe" onClick={closeCard} />
         {hasNextPage && (
-          <button
-            type="button"
+          <Button
+            type="primary"
+            title="Fetch more"
+            className="mx-2"
             onClick={() => {
               fetchMoreCards({
                 variables: {
@@ -57,10 +54,7 @@ const CardDetails = ({ pipeId, pipeName, closeCard }: CardDetailsProps) => {
                 },
               });
             }}
-            className="px-4 py-2 mx-2 text-sm font-medium text-blue-500 bg-blue-500 rounded-md text-opacity-80 bg-opacity-20 hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
-          >
-            Fetch more
-          </button>
+          />
         )}
       </div>
     </section>
