@@ -19,6 +19,7 @@ const CardDetails = ({ pipeId, pipeName, closeCard }: CardDetailsProps) => {
     fetchMore: fetchMoreCards,
   } = useQuery<Cards>(cardsQuery, {
     variables: { pipe_id: pipeId, first: 3 },
+    fetchPolicy: "network-only",
   });
 
   if (isCardsLoading) return <div>Loading...</div>;
@@ -44,7 +45,7 @@ const CardDetails = ({ pipeId, pipeName, closeCard }: CardDetailsProps) => {
           onClick={closeCard}
           className="px-4 py-2 text-sm font-medium text-white bg-black rounded-md bg-opacity-20 hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
         >
-          Close card
+          Close pipe
         </button>
         {hasNextPage && (
           <button

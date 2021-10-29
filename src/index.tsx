@@ -4,10 +4,19 @@ import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
+import { relayStylePagination } from "@apollo/client/utilities";
 
 const client = new ApolloClient({
   uri: process.env.REACT_APP_PIPEFY_API_URL || "",
-  cache: new InMemoryCache(),
+  cache: new InMemoryCache({
+    typePolicies: {
+      Query: {
+        fields: {
+          cards: relayStylePagination(),
+        },
+      },
+    },
+  }),
   headers: {
     authorization: `Bearer ${process.env.REACT_APP_PIPEFY_API_TOKEN || ""}`,
   },
