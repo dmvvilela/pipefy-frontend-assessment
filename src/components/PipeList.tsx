@@ -27,7 +27,7 @@ const PipeList = () => {
 
   // For this exercise, get only the organization indicated by the assessment
   const pipes = pipesConnection.organizations
-    ?.filter((o) => o?.id === process.env.REACT_APP_PIPEFY_ORG_ID)
+    ?.filter((o) => o?.id === "300562393")
     .map((t) => t?.pipes)[0];
 
   const sortedPipes = pipes
