@@ -1,63 +1,30 @@
 import React from "react";
-import { useQuery } from "@apollo/client";
-import { Cards } from "../graphql/__generated__/Cards";
-import { loader } from "graphql.macro";
-import Button from "./Button";
-
-const cardsQuery = loader("../graphql/cards.graphql");
+import { Cards_cards_edges_node } from "../graphql/__generated__/Cards";
 
 export interface CardDetailsProps {
-  pipeId: string;
-  pipeName: string;
-  closeCard: () => void;
+  card: Cards_cards_edges_node;
 }
 
-const CardDetails = ({ pipeId, pipeName, closeCard }: CardDetailsProps) => {
-  const {
-    loading: isCardsLoading,
-    data: cardsConnection,
-    error: cardsError,
-    fetchMore: fetchMoreCards,
-  } = useQuery<Cards>(cardsQuery, {
-    variables: { pipe_id: pipeId, first: 3 },
-    fetchPolicy: "network-only",
-  });
-
-  if (isCardsLoading) return <div>Loading...</div>;
-  if (cardsError)
-    return <div>An error occurred {JSON.stringify(cardsError)}</div>;
-  if (!cardsConnection) return <div>None</div>;
-
-  const cards = cardsConnection.cards?.edges?.map((t) => t?.node);
-
-  const { endCursor, hasNextPage } = cardsConnection.cards!.pageInfo;
-
+const CardDetails = ({ card }: CardDetailsProps) => {
   return (
-    <section>
-      <h1 className="text-2xl font-bold">{pipeName} Cards</h1>
-      {cards?.map((card) => (
-        <div key={card!.id} className="">
-          {card?.title}
-        </div>
-      ))}
-      <div className="pt-4 pb-2">
-        <Button title="Close pipe" onClick={closeCard} />
-        {hasNextPage && (
-          <Button
-            type="primary"
-            title="Fetch more"
-            className="mx-2"
-            onClick={() => {
-              fetchMoreCards({
-                variables: {
-                  after: endCursor,
-                },
-              });
-            }}
-          />
+    <div key={card!.id} className="p-2 my-2 rounded shadow-md">
+      <span style={{ display: "inline-block" }}>
+        {card.done && (
+          <img src="done.png" className="w-4 mr-2" alt="done icon" />
         )}
-      </div>
-    </section>
+      </span>
+      {card.title}
+      <span style={{ display: "inline-block" }}>
+        {card.labels?.map((label) => (
+          <span
+            key={label!.id}
+            className="inline-block px-3 py-1 ml-2 text-sm font-semibold text-gray-700 bg-gray-200 rounded-full"
+          >
+            {label!.name}
+          </span>
+        ))}
+      </span>
+    </div>
   );
 };
 

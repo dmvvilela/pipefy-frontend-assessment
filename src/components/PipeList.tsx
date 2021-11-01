@@ -3,7 +3,7 @@ import { useQuery } from "@apollo/client";
 import { Pipes } from "../graphql/__generated__/Pipes";
 import { loader } from "graphql.macro";
 import Modal from "./Modal";
-import CardDetails, { CardDetailsProps } from "./CardDetails";
+import CardList, { CardListProps } from "./CardList";
 
 const pipesQuery = loader("../graphql/pipes.graphql");
 
@@ -11,7 +11,7 @@ const TailwindColor = require("@videsk/tailwind-random-color");
 
 const PipeList = () => {
   const [showCard, setShowCard] = useState<Pick<
-    CardDetailsProps,
+    CardListProps,
     "pipeId" | "pipeName"
   > | null>(null);
 
@@ -40,7 +40,7 @@ const PipeList = () => {
     <section>
       {showCard && (
         <Modal>
-          <CardDetails
+          <CardList
             pipeId={showCard!.pipeId}
             pipeName={showCard!.pipeName}
             closeCard={closeCard}

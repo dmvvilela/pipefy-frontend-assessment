@@ -16,7 +16,7 @@ const Modal = ({ children }: ModalProps) => {
         >
           &#8203;
         </span>
-        <div className="relative z-50 inline-block px-4 pt-5 pb-4 overflow-hidden text-left align-bottom transition-all bg-white rounded-lg shadow-xl sm:my-8 sm:align-middle sm:max-w-sm sm:w-full sm:p-6">
+        <div className="relative z-50 inline-block px-4 pt-5 pb-4 overflow-hidden text-left align-bottom transition-all bg-white rounded-lg shadow-xl sm:my-8 sm:align-middle sm:p-6 xs:min-w-full">
           {children}
         </div>
       </div>
