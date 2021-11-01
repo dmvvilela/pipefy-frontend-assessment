@@ -4,7 +4,7 @@ module.exports = {
   darkMode: false, // or 'media' or 'class'
   theme: {
     container: {
-      // center: true,
+      center: true,
       padding: "4rem",
     },
     extend: {},
