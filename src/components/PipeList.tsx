@@ -4,10 +4,9 @@ import { Pipes } from "../graphql/__generated__/Pipes";
 import { loader } from "graphql.macro";
 import Modal from "./Modal";
 import CardList, { CardListProps } from "./CardList";
+import PipeDetails from "./PipeDetails";
 
 const pipesQuery = loader("../graphql/pipes.graphql");
-
-const TailwindColor = require("@videsk/tailwind-random-color");
 
 const PipeList = () => {
   const [showCard, setShowCard] = useState<Pick<
@@ -56,28 +55,16 @@ const PipeList = () => {
             Here are all your processes
           </h2>
           {sortedPipes?.map((pipe) => (
-            <div
+            <PipeDetails
               key={pipe!.id}
-              className={`p-2 rounded-xl shadow-sm hover:shadow-md flex flex-col w-36 cursor-pointer ${new TailwindColor().pick()} bg-opacity-10 pipe`}
+              pipe={pipe!}
               onClick={() =>
                 setShowCard({
                   pipeId: pipe!.id,
                   pipeName: pipe!.name,
                 })
               }
-            >
-              <img
-                src="pipe.png"
-                className="self-center w-12 m-4"
-                alt="pipe icon"
-              />
-              <h3 className="flex-1 text-sm font-bold text-center">
-                {pipe?.name}
-              </h3>
-              <h3 className="flex-1 p-1 text-xs font-light text-center opacity-40">
-                {pipe?.cards_count} {pipe?.cards_count === 1 ? "card" : "cards"}
-              </h3>
-            </div>
+            />
           ))}
         </div>
       </div>
