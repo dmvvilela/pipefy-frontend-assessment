@@ -25,8 +25,11 @@ const PipeList = () => {
     return <div>An error occurred {JSON.stringify(pipesError)}</div>;
   if (!pipesConnection) return <div>None</div>;
 
-  // For this exercise, get only the first organization
-  const pipes = pipesConnection.organizations?.map((t) => t?.pipes)[0];
+  // For this exercise, get only the organization indicated by the assessment
+  const pipes = pipesConnection.organizations
+    ?.filter((o) => o?.id === process.env.REACT_APP_PIPEFY_ORG_ID)
+    .map((t) => t?.pipes)[0];
+
   const sortedPipes = pipes
     ?.slice()
     .sort((a, b) => a!.name.trim().localeCompare(b!.name.trim()));
